@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>DOM_2_2</title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<style type="text/css">
+		#wrap {
+			width: 100%;
+			border:1px solid #ccc;
+		}
+		.consoleBox {
+			padding: 10px;
+			border-bottom: 2px solid #000;
+			text-align: center;
+		}
+	</style>
+	<script src="http://code.jquery.com/jquery.min.js"></script>	 
+	<script type="text/javascript">
+		//<![CDATA[
+		window.onload=function()
+		{
+			var choose_tag, write_tag, input_box1, input_box2, start_button;
+			input_box1 = document.getElementById("btn1");
+			input_box2 = document.getElementById("btn2");
+			start_button = document.getElementById("btn3");
+			input_box1.onclick=function(){
+				setting1();
+			}
+			input_box1.onfocus=function(){
+				this.value="";	
+			}
+			input_box2.onclick=function(){
+				setting1();
+				setting2();
+			}
+			input_box2.onfocus=function(){
+				setting1();
+				setting2();
+			}
+			start_button.onclick=function(){
+				choose_tag = input_box1.value;	
+				change(choose_tag, check());
+				input_box1.value = "Enter the tag";
+				input_box2.value = "Enter the new tag";				
+			}
+			function change(tag, writetag){
+				var input_tag = document.getElementsByTagName(tag); 
+				for(var i=0; i<input_tag.length; i+1){
+					input_tag[i].outerHTML="<"+writetag+">"+input_tag[i].firstChild.nodeValue+"</"+writetag+">";
+				}
+			}
+			function check(){			
+				switch(this.value){
+					case "a":
+					var link = prompt("Enter the address");
+					write_tag = this.value + " href=" + link;
+					break;
+					case "":
+					break;
+					default :
+					write_tag = this.value;
+				}
+				return write_tag;
+			}
+			function setting1(){
+				//this.value="";
+				this.value="";
+				
+				console.log(this.value);
+			}
+			function setting2(){
+				if(this.value.length>0){
+					check(this.value);			
+				}		
+			}	 	
+		}		
+		//]]>
+	</script>
+</head>
+<body>
+	<div id="wrap">
+		<div class="consoleBox">
+			<input type="text" id="btn1" value="Enter the tag">
+			<input type="text" id="btn2" value="Enter the new tag">
+			<button id="btn3">Start</button>
+			<button id="btn4">Reset</button>
+		</div>
+		<div class="content">
+			<p>sample01</p>
+			<p>sample02</p>
+			<p>sample03</p>
+			<p>sample04</p>
+			<p>sample05</p>
+			<p>sample06</p>
+			<p>sample07</p>
+			<p>sample08</p>
+			<p>sample09</p>
+			<p>sample10</p>
+		</div>
+	</div>
+</body>
+</html>
