@@ -26,57 +26,63 @@
 		}
 		$(function() {
 			var choose_tag, write_tag;
+				index = {					
+					dtTag : "dt",
+					ddTag : "dd"
+				};
 			function change(tag, writetag){
 				var input_tag = $(tag);
-				var index = new Array();
-				for (var i=0; i<input_tag.size(); i++){
-					//index[i] = input_tag.eq(i).text();
-					input_tag.replaceWith("<"+writetag+">"+input_tag.eq(i).text()+"</"+writetag+">");
-				}
-				//alert(index);
+				for (var i=0; i<input_tag.length; i++){
+						input_tag.eq(i).replaceWith("<"+writetag+">"+input_tag.eq(i).text()+"</"+writetag+">");
+					}								
 			}
 			function check(){
-				switch($(".btn2").val()){
-					case "a":
-					var link = prompt("Enter the address");
-					write_tag = $(".btn2").val() + " href=" + link;
-					break;
-					case "":
-					break;
-					default :
-					write_tag = $(".btn2").val();
+				if ($(".box1").val().length>0){
+					switch($(".box2").val()){
+						case "":
+						alert("You must enter the new tag");
+						$(".box2").focus();
+						break;
+
+						case "a":
+						var link = prompt("Enter the address");
+						write_tag = $(".box2").val() + " href=" + link;
+						break;
+I						
+						case "dl":
+						var elenum = prompt("Enter the dt tag number");
+						write_tag = $(".box2").val();
+						break;
+
+						default :
+						write_tag = $(".box2").val();
+					}
 				}
-//				if($(".btn2").val()=="a"){
-//					var link = prompt("Enter the address");
-//					write_tag = $(".btn2").val() + " href=" + link;
-//				}
-//				else{
-//					write_tag = $(".btn2").val();
-//				}				
-				return write_tag;
+				else {
+					alert("You must enter the origin tag");
+					$(".box1").focus();
+				}				
 			}
 			
-			$(".btn1").on("click focus", function(){				
+			$(".box1").on("click focus", function(){
 				$(this).val("");				
 			});
-			
-			$(".btn2").on("click focus", function(){				
+			$(".box1").on("blur", function(){
+				check();
+			});
+			$(".box2").on("click focus", function(){
 				$(this).val("");
-				if($(this).val().length>0){
-					check($(this).val());			
-				}				
+			});
+			$(".box2").on("blur", function(){
+				check();				
 			});			
 	
-			$(".btn3").on("click", function(){
-				choose_tag = $(".btn1").val();	
-				change(choose_tag, check());
-				$(".btn1").val("Enter the tag");
-				$(".btn2").val("Enter the new tag");				
-			});
-	
-			$(".btn4").on("click", function(){				
-			});
-			
+			$(".btn1").on("click", function(){
+				choose_tag = $(".box1").val();	
+				change(choose_tag, write_tag);
+				$(".box1").val("Enter the tag");
+				$(".box2").val("Enter the new tag");				
+			});			
 		});
 		//]]>
 	</script>
@@ -84,10 +90,10 @@
 <body>
 	<div id="wrap">
 		<div class="consoleBox">
-			<input type="text" class="btn1" value="Enter the tag">
-			<input type="text" class="btn2" value="Enter the new tag">
-			<button class="btn3">Start</button>
-			<button class="btn4">Reset</button>
+			<input type="text" class="box1" value="Enter the tag">
+			<input type="text" class="box2" value="Enter the new tag">
+			<button class="btn1">Start</button>
+			
 		</div>
 		<div class="content">
 			<p>sample01</p>

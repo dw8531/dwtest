@@ -12,9 +12,13 @@
 		}
 		.consoleBox {
 			padding: 10px;
-			border-bottom: 2px solid #000;
+			border: 2px solid #000;
 			text-align: center;
 		}
+		.description {
+			text-align: left;			
+		}
+
 	</style>
 	<script src="http://code.jquery.com/jquery.min.js"></script>	 
 	<script type="text/javascript">
@@ -26,66 +30,84 @@
 			input_box2 = document.getElementById("btn2");
 			start_button = document.getElementById("btn3");
 			input_box1.onclick=function(){
-				setting1();
+				setting1(this);
 			}
 			input_box1.onfocus=function(){
-				this.value="";	
+				setting1(this)	
+			}
+			input_box1.onblur=function(){
+				check();
 			}
 			input_box2.onclick=function(){
-				setting1();
-				setting2();
+				setting1(this);				
 			}
 			input_box2.onfocus=function(){
-				setting1();
-				setting2();
+				setting1(this);				
+			}
+			input_box2.onblur=function(){
+				check();
 			}
 			start_button.onclick=function(){
 				choose_tag = input_box1.value;	
-				change(choose_tag, check());
+				change(choose_tag, write_tag);
 				input_box1.value = "Enter the tag";
 				input_box2.value = "Enter the new tag";				
 			}
 			function change(tag, writetag){
-				var input_tag = document.getElementsByTagName(tag); 
+				var wrap = document.getElementById("wrap");
+				var content = wrap.getElementsByTagName("div");
+				//alert(content.length);
+				var input_tag = content[2].getElementsByTagName(tag); 
 				for(var i=0; i<input_tag.length; i+1){
 					input_tag[i].outerHTML="<"+writetag+">"+input_tag[i].firstChild.nodeValue+"</"+writetag+">";
 				}
 			}
-			function check(){			
-				switch(this.value){
-					case "a":
-					var link = prompt("Enter the address");
-					write_tag = this.value + " href=" + link;
-					break;
-					case "":
-					break;
-					default :
-					write_tag = this.value;
+			function check(){
+				if (input_box1.value.length>0){			
+					switch(input_box2.value){
+						case "":
+							alert("You must enter the new tag");
+							input_box2.focus();
+							break;
+						case "a":
+						var link = prompt("Enter the address");
+						write_tag = input_box2.value + " href=" + link;
+						break;
+						case "":
+						break;
+						default :
+						write_tag = input_box2.value;
+					}
 				}
-				return write_tag;
+				else {
+					alert("You must enter the origin tag");
+					input_box1.focus();
+				}
 			}
-			function setting1(){
-				//this.value="";
-				this.value="";
-				
-				console.log(this.value);
-			}
-			function setting2(){
-				if(this.value.length>0){
-					check(this.value);			
-				}		
-			}	 	
+			function setting1(target){
+				target.value="";				
+			}							 	
 		}		
 		//]]>
 	</script>
 </head>
 <body>
 	<div id="wrap">
+		<h1>Change the html tag</h1>
 		<div class="consoleBox">
 			<input type="text" id="btn1" value="Enter the tag">
 			<input type="text" id="btn2" value="Enter the new tag">
 			<button id="btn3">Start</button>
 			<button id="btn4">Reset</button>
+			<div class="description">
+				<h2>Description</h2>
+				<ol>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ol>
+			</div>
 		</div>
 		<div class="content">
 			<p>sample01</p>
