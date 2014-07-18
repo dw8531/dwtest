@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>DOM_2_2</title>
+	<title>HTML Change Util</title>
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<style type="text/css">
@@ -12,8 +12,11 @@
 		}
 		.consoleBox {
 			padding: 10px;
-			border-bottom: 2px solid #000;
+			border: 2px solid #000;
 			text-align: center;
+		}
+		.description {
+			text-align: left;			
 		}
 	</style>
 	<script src="http://code.jquery.com/jquery.min.js"></script>	 
@@ -22,20 +25,43 @@
 			//js지원시
 		window.onload=function()
 		{
-	 	
+
 		}
 		$(function() {
-			var choose_tag, write_tag;
+			var choose_tag, write_tag, elenum,
 				index = {					
 					dtTag : "dt",
 					ddTag : "dd"
+				},
+				startEvent = {
+					eventStart : "click focus",
+					eventCheck : "blur"
 				};
 			function change(tag, writetag){
-				var input_tag = $(tag);
+				var input_tag = $(".content").find(tag);
+				var ori_text = new Array();
+				ori_text = input_tag.text();
 				for (var i=0; i<input_tag.length; i++){
 						input_tag.eq(i).replaceWith("<"+writetag+">"+input_tag.eq(i).text()+"</"+writetag+">");
-					}								
-			}
+					}		
+				/*if (writetag == "dl"){
+					//alert(elenum);
+					for(var i=0; i<elenum; i++){
+						$(writetag).html(function(idx){
+						return "<"+index.dtTag+">" + idx + "</"+index.dtTag+">";
+						});
+					}
+				}*/
+			}		
+			function generate(){
+				var gene_tag = document.createElement($(".box3").val());
+				var gene_txt = document.createTextNode("sample");
+				gene_tag.appendChild(gene_txt);
+				var divTag = document.getElementsByTagName("div");
+				var contentDiv = divTag[3];
+				contentDiv.appendChild(gene_tag);
+				contentDiv.insertBefore(gene_tag, contentDiv.childNodes[0]);				
+			}				
 			function check(){
 				if ($(".box1").val().length>0){
 					switch($(".box2").val()){
@@ -50,7 +76,7 @@
 						break;
 I						
 						case "dl":
-						var elenum = prompt("Enter the dt tag number");
+						elenum = prompt("Enter the dt tag number");
 						write_tag = $(".box2").val();
 						break;
 
@@ -63,25 +89,30 @@ I
 					$(".box1").focus();
 				}				
 			}
-			
-			$(".box1").on("click focus", function(){
+
+			$(".box1").on(startEvent.eventStart, function(){
 				$(this).val("");				
 			});
-			$(".box1").on("blur", function(){
+			$(".box1").on(startEvent.eventCheck, function(){
 				check();
 			});
-			$(".box2").on("click focus", function(){
+			$(".box2").on(startEvent.eventStart, function(){
 				$(this).val("");
 			});
-			$(".box2").on("blur", function(){
+			$(".box2").on(startEvent.eventCheck, function(){
 				check();				
-			});			
-	
+			});
+			$(".box3").on(startEvent.eventStart, function(){
+				$(this).val("");
+			});
 			$(".btn1").on("click", function(){
 				choose_tag = $(".box1").val();	
 				change(choose_tag, write_tag);
 				$(".box1").val("Enter the tag");
-				$(".box2").val("Enter the new tag");				
+				$(".box2").val("Enter the new tag");								
+			});
+			$(".btn2").on("click", function(){
+				generate();	
 			});			
 		});
 		//]]>
@@ -89,24 +120,24 @@ I
 </head>
 <body>
 	<div id="wrap">
+	<h1>Change the html tag</h1>
 		<div class="consoleBox">
+			<input type="text" class="box3" value="Write the tag">
+			<button class="btn2">Generate</button>
 			<input type="text" class="box1" value="Enter the tag">
 			<input type="text" class="box2" value="Enter the new tag">
-			<button class="btn1">Start</button>
-			
+			<button class="btn1">Start</button>			
+			<div class="description">
+				<h2>Description</h2>
+				<ol>
+					<li>step 1 : Enter the tag in box1</li>
+					<li>step 2 : Click the 'Generate' button, if you want to more than 1 tags, continue click the button.</li>
+					<li>step 3 : Choose the tag</li>
+					<li>step 4 : Write the tag</li>
+				</ol>
+			</div>
 		</div>
-		<div class="content">
-			<p>sample01</p>
-			<p>sample02</p>
-			<p>sample03</p>
-			<p>sample04</p>
-			<p>sample05</p>
-			<p>sample06</p>
-			<p>sample07</p>
-			<p>sample08</p>
-			<p>sample09</p>
-			<p>sample10</p>
-		</div>
+		<div class="content"></div>
 	</div>
 </body>
 </html>

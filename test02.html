@@ -29,38 +29,45 @@
 			input_box1 = document.getElementById("btn1");
 			input_box2 = document.getElementById("btn2");
 			start_button = document.getElementById("btn3");
-			input_box1.onclick=function(){
+			input_box1.addEventListener("click", function(){
 				setting1(this);
-			}
-			input_box1.onfocus=function(){
-				setting1(this)	
-			}
-			input_box1.onblur=function(){
+			});
+			input_box1.addEventListener("focus", function(){
+				setting1(this);
+			});
+			input_box1.addEventListener("blur", function(){
 				check();
-			}
-			input_box2.onclick=function(){
-				setting1(this);				
-			}
-			input_box2.onfocus=function(){
-				setting1(this);				
-			}
-			input_box2.onblur=function(){
+			});
+			input_box2.addEventListener("click", function(){
+				setting1(this);
+			});
+			input_box2.addEventListener("focus", function(){
+				setting1(this);
+			});
+			input_box2.addEventListener("click", function(){
 				check();
-			}
-			start_button.onclick=function(){
+			});
+			start_button.addEventListener("click", function(){
 				choose_tag = input_box1.value;	
 				change(choose_tag, write_tag);
 				input_box1.value = "Enter the tag";
 				input_box2.value = "Enter the new tag";				
-			}
+			});
 			function change(tag, writetag){
 				var wrap = document.getElementById("wrap");
 				var content = wrap.getElementsByTagName("div");
 				//alert(content.length);
-				var input_tag = content[2].getElementsByTagName(tag); 
-				for(var i=0; i<input_tag.length; i+1){
-					input_tag[i].outerHTML="<"+writetag+">"+input_tag[i].firstChild.nodeValue+"</"+writetag+">";
+				var input_tag = content[2].getElementsByTagName(tag);
+				var output_tag = document.createElement(writetag).cloneNode(true);				
+				//alert(input_tag[0].nodeName);
+				//input_tag.parentNode.replaceChild(output_tag,input_tag)
+				for(var i=0; i<input_tag.length; i++){
+					//alert(input_tag[i].nodeName);
+					//input_tag[i].outerHTML = "<"+writetag+">"+input_tag[i].firstChild.nodeValue+"</"+writetag+">";
+					
 				}
+				input_tag[0].appendChild(output_tag);
+				input_tag[1].appendChild(output_tag);
 			}
 			function check(){
 				if (input_box1.value.length>0){			
